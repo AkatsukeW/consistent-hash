@@ -10,7 +10,7 @@ import (
 type Consistent struct {
 	hasSortedNode []uint32
 	circle        map[uint32]string
-	nodes         map[string]bool
+	nodes         map[string]struct{}
 	sync.RWMutex
 	// count virtual nodes
 	virtualNodeCount int
@@ -32,9 +32,9 @@ func (c *Consistent) AddNode(node string, virtualNodeCount int) error {
 	}
 
 	if c.nodes == nil {
-		c.nodes = make(map[string]bool)
+		c.nodes = make(map[string]struct{})
 	}
-	c.nodes[node] = true
+	c.nodes[node] = struct{}{}
 
 	// add virtual node
 	for i := 0; i < virtualNodeCount; i++ {
